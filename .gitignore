@@ -76,3 +76,4 @@ atlassian-ide-plugin.xml
 # Sonar
 .sonar*
 
+target/*

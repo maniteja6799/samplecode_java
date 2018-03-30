@@ -1,0 +1,537 @@
+
+<!-- language specific field types sorted according to lang code -->
+    
+    <!-- Arabic -->
+    <fieldType name="text_ar" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- for any non-arabic -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="ar" />
+        <!-- normalizes ﻯ to ﻱ, etc -->
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.ArabicStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_ar" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="ar" />
+        <!-- normalizes ﻯ to ﻱ, etc -->
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.ArabicStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="ar" />
+        <filter class="solr.ManagedStopFilterFactory" managed="ar"  />
+        <!-- normalizes ﻯ to ﻱ, etc -->
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.ArabicStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_ar" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="ar" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="ar"  />
+      </analyzer>
+    </fieldType>
+
+    <!-- Bulgarian -->
+    <fieldType name="text_bg" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.BulgarianStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_bg" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="bg" />
+        <filter class="solr.BulgarianStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="bg" />
+        <filter class="solr.ManagedStopFilterFactory" managed="bg"  />
+        <filter class="solr.BulgarianStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_bg" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="bg" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="bg"  />
+      </analyzer>
+    </fieldType>
+
+    <!-- Catalan -->
+    <fieldType name="text_ca" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- removes l', etc -->
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="ca" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_ca" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="ca" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="ca" />
+        <filter class="solr.ManagedStopFilterFactory" managed="ca" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_ca" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="ca" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="ca" />
+      </analyzer>
+    </fieldType>
+
+   <!--########## todo CJK bigram (see text_ja for a Japanese configuration using morphological analysis) ###########-->
+
+    <!-- Czech -->
+    <fieldType name="text_cz" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="cz" />
+        <filter class="solr.CzechStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_cz" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="cz" />
+        <filter class="solr.CzechStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="cz" />
+        <filter class="solr.ManagedStopFilterFactory" managed="cz" />
+        <filter class="solr.CzechStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_cz" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="cz" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="cz" />
+      </analyzer>
+    </fieldType>
+
+
+    <!-- Danish -->
+    <fieldType name="text_da" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="da" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_da" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="da" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="da" />
+        <filter class="solr.ManagedStopFilterFactory" managed="da" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_da" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="da" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="da" />
+      </analyzer>
+    </fieldType>
+
+
+    <!-- German -->
+    <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="de" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_de" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="de" />
+        <filter class="solr.GermanNormalizationFilterFactory"/>
+        <filter class="solr.GermanLightStemFilterFactory"/>
+        <!-- less aggressive: <filter class="solr.GermanMinimalStemFilterFactory"/> -->
+        <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="German2"/> -->
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="de" />
+        <filter class="solr.ManagedStopFilterFactory" managed="de" />
+        <filter class="solr.GermanNormalizationFilterFactory"/>
+        <filter class="solr.GermanLightStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_de" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="de" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="de" />
+      </analyzer>
+    </fieldType>
+
+
+    <!-- Greek -->
+    <fieldType name="text_el" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.GreekLowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="el" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_el" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.GreekLowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="el" />
+        <filter class="solr.GreekStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.GreekLowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="el" />
+        <filter class="solr.ManagedStopFilterFactory" managed="el" />
+        <filter class="solr.GreekStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_el" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.GreekLowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="el" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.GreekLowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="el" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Spanish -->
+    <fieldType name="text_es" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="es" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_es" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="es" />
+        <filter class="solr.SpanishLightStemFilterFactory"/>
+        <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Spanish"/> -->
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="es" />
+        <filter class="solr.ManagedStopFilterFactory" managed="es" />
+        <filter class="solr.SpanishLightStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_es" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="es" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="es" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Basque -->
+    <fieldType name="text_eu" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="eu" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_eu" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="eu" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Basque"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="eu" />
+        <filter class="solr.ManagedStopFilterFactory" managed="eu" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Basque"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_eu" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="eu" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="eu" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Persian -->
+    <fieldType name="text_fa" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <charFilter class="solr.PersianCharFilterFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fa" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_fa" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <charFilter class="solr.PersianCharFilterFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.PersianNormalizationFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fa" />
+      </analyzer>
+      <analyzer type="query">
+        <charFilter class="solr.PersianCharFilterFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.PersianNormalizationFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="fa" />
+        <filter class="solr.ManagedStopFilterFactory" managed="fa" />
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_fa" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <charFilter class="solr.PersianCharFilterFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.PersianNormalizationFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fa" />
+      </analyzer>
+      <analyzer type="query">
+        <charFilter class="solr.PersianCharFilterFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ArabicNormalizationFilterFactory"/>
+        <filter class="solr.PersianNormalizationFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fa" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Finnish -->
+    <fieldType name="text_fi" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fi" />
+      </analyzer>
+    </fieldType>
+
+     <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed_fi" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fi" />
+        <!-- less aggressive: --> 
+        <filter class="solr.FinnishLightStemFilterFactory"/>
+        <!-- more aggressive: -->  <!-- <filter class="solr.SnowballPorterFilterFactory" language="Finnish"/> -->
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="fi" />
+        <filter class="solr.ManagedStopFilterFactory" managed="fi" />
+        <filter class="solr.FinnishLightStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck_fi" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fi" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ManagedStopFilterFactory" managed="fi" />
+      </analyzer>
+    </fieldType>

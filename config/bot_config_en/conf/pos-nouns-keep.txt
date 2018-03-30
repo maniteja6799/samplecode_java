@@ -1,0 +1,8 @@
+## nouns and adjectives
+NN
+NNS
+NNP
+NNPS
+JJ
+JJR
+JJS

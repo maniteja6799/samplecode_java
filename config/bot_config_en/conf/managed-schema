@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="bot_engati_answers" version="1.6">
+    <uniqueKey>id</uniqueKey>
+
+
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
+    <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="true" />
+
+    <!-- boolean type: "true" or "false" -->
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+
+    <!--
+      Numeric field types that index values using KD-trees. *Point fields are faster and more efficient than Trie* fields both, at
+      search time and at index time, but some features are still not supported.
+      Point fields don't support FieldCache, so they must have docValues="true" if needed for sorting, faceting, functions, etc.
+    -->
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
+    
+    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+    <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+
+    <!--
+      Default numeric field types. For faster range queries, consider *PointFields (pint/pfloat/plong/pdouble), or the 
+      tint/tfloat/tlong/tdouble types.
+    -->
+    <fieldType name="int" class="solr.TrieIntField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+
+    <fieldType name="ints" class="solr.TrieIntField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="floats" class="solr.TrieFloatField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="longs" class="solr.TrieLongField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="doubles" class="solr.TrieDoubleField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+
+    <!--
+     Numeric field types that index each value at various levels of precision
+     to accelerate range queries when the number of values between the range
+     endpoints is large. See the javadoc for NumericRangeQuery for internal
+     implementation details.
+
+     Smaller precisionStep values (specified in bits) will lead to more tokens
+     indexed per value, slightly larger index size, and faster range queries.
+     A precisionStep of 0 disables indexing at different precision levels.
+     
+     Consider using pint/pfloat/plong/pdouble instead of Trie* fields if possible
+    -->
+    <fieldType name="tint" class="solr.TrieIntField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
+    
+    <fieldType name="tints" class="solr.TrieIntField" docValues="true" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="tfloats" class="solr.TrieFloatField" docValues="true" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="tlongs" class="solr.TrieLongField" docValues="true" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="tdoubles" class="solr.TrieDoubleField" docValues="true" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+
+    <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
+         is a more restricted form of the canonical representation of dateTime
+         http://www.w3.org/TR/xmlschema-2/#dateTime    
+         The trailing "Z" designates UTC time and is mandatory.
+         Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
+         All other components are mandatory.
+
+         Expressions can also be used to denote calculations that should be
+         performed relative to "NOW" to determine the value, ie...
+
+               NOW/HOUR
+                  ... Round to the start of the current hour
+               NOW-1DAY
+                  ... Exactly 1 day prior to now
+               NOW/DAY+6MONTHS+3DAYS
+                  ... 6 months and 3 days in the future from the start of
+                      the current day
+                      
+         Consult the TrieDateField javadocs for more information.
+      -->
+    <!-- KD-tree versions of date fields -->
+    <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
+    <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+    
+    <fieldType name="date" class="solr.TrieDateField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="dates" class="solr.TrieDateField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+
+    <fieldType name="tdate" class="solr.TrieDateField" docValues="true" precisionStep="6" positionIncrementGap="0"/>
+    <fieldType name="tdates" class="solr.TrieDateField" docValues="true" precisionStep="6" positionIncrementGap="0" multiValued="true"/>
+
+
+    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+    <fieldType name="binary" class="solr.BinaryField"/>
+
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"  words="stopwords.txt" />
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"  words="stopwords.txt" />
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt"  expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- A text field with defaults appropriate for English: it
+         tokenizes with StandardTokenizer, removes English stop words
+         (lang/stopwords_en.txt), down cases, protects words from protwords.txt, and
+         finally applies Porter's stemming.  The query time analyzer
+         also applies synonyms from synonyms.txt. -->
+    <dynamicField name="*_txt_en" type="text_en"  indexed="true"  stored="true"/>
+    <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+            />
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+        />
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+<!-- ######## todo: check more about this for other languages -->
+    <!-- A text field with defaults appropriate for English, plus
+         aggressive word-splitting and autophrase features enabled.
+         This field is just like text_en, except it adds
+         WordDelimiterGraphFilter to enable splitting and matching of
+         words on case-change, alpha numeric boundaries, and
+         non-alphanumeric chars.  This means certain compound word
+         cases will work, for example query "wi fi" will match
+         document "WiFi" or "wi-fi".
+    -->
+    <dynamicField name="*_txt_en_split" type="text_en_splitting"  indexed="true"  stored="true"/>
+    <fieldType name="text_en_splitting" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+      <analyzer type="index">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+        />
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+        <filter class="solr.FlattenGraphFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+        />
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+
+  
+    <!--  ######## todo: can be usefull, cehck more about this. -->
+    <dynamicField name="*_phon_en" type="phonetic_en"  indexed="true"  stored="true"/>
+    <fieldType name="phonetic_en" stored="false" indexed="true" class="solr.TextField" >
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text converted to lower 
+         tokenised (based on language).-->
+    <fieldType name="text_lowercase" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language  -->
+    <fieldType name="text_stemmed" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory"
+                    managed="english" />
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="english" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- ########## todo: spell check -->
+    <!-- text tokenised(as per language), 
+        stopwords filetered (using managed stopwords), 
+        synonyms for query time(managed synonyms), 
+        stemmed using the stemmer for that language,
+        added spell check support( via solr)  -->
+    <fieldType name="text_spellcheck" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory"
+                    managed="english" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="english" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language),
+        filterd nouns and adjectives,
+        synonyms during query time -->
+    <fieldType name="text_nouns_adj" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english" />
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-nouns-keep.txt" useWhitelist="true"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <!-- commeneted for now, will have to see if it is of any use--> 
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+        
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-nouns-keep.txt" useWhitelist="true"/>
+        <filter class="solr.ManagedSynonymFilterFactory" managed="english" />
+      </analyzer>
+    </fieldType>
+
+
+    <!-- text tokenised(as per language),
+        filterd verbs , 
+        synonyms during query time -->
+    <fieldType name="text_verbs_adverbs" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-verbs-keep.txt" useWhitelist="true"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="english" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+        
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-verbs-keep.txt" useWhitelist="true"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- text tokenised(as per language),
+        filterd verbs without auxilary verbs(for english),
+        synonyms during query time -->
+    <fieldType name="text_verbs_adverbs_not_aux" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedStopFilterFactory"
+                    managed="english"  />
+        
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-verbs-keep.txt" useWhitelist="true"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+                   sentenceModel="opennlp/models/en-sent.bin"
+                   tokenizerModel="opennlp/models/en-token.bin"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.ManagedSynonymFilterFactory" managed="english" />
+        <filter class="solr.ManagedStopFilterFactory" managed="english"  />
+        <filter class="solr.StopFilterFactory"  words="lang/en-aux-verbs.txt" />
+        
+        <filter class="solr.OpenNLPPOSFilterFactory" posTaggerModel="opennlp/models/en-pos-maxent.bin"/>
+        <filter class="solr.TypeAsPayloadFilterFactory"/>
+        <filter class="solr.TypeTokenFilterFactory" types="pos-verbs-keep.txt" useWhitelist="true"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_prefix" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory" />
+          <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="15" />
+        </analyzer>
+        <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory" />
+        </analyzer>
+    </fieldType>
+
+
+    <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
+    <field name="_version_" type="long" indexed="false" stored="false"/>
+    <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
+    <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+
+    <field name="botid" type="int" indexed="true" required="true" stored="true"/>
+    <field name="category" type="string" docValues="false" indexed="true" required="true" stored="true"/>
+    <field name="category_stemmed" type="string" docValues="false" indexed="true" stored="false"/>
+    <field name="flow_key" type="string" docValues="false" indexed="false" stored="true"/>
+
+    <field name="statement" type="text_lowercase" indexed="true" stored="true"/>
+    <field name="statement_stemmed" type="text_stemmed" indexed="true" stored="false"/>
+    <field name="statement_noun_adj" type="text_nouns_adj" indexed="true" stored="false"/>
+    <field name="statement_all_verbs" type="text_verbs_adverbs" indexed="true" stored="false"/>
+    <field name="statement_verbs_not_aux" type="text_verbs_adverbs_not_aux" indexed="true" stored="false"/>
+    <field name="statement_spell_check" type="text_spellcheck" indexed="true" stored="false"/>
+    <field name="statement_prefix" type="text_prefix" indexed="true" stored="false"/>
+
+    <field name="response_ref" type="tlongs"/>
+    <field name="answer" type="text_lowercase" indexed="true" stored="true"/>
+    <field name="answer_stemmed" type="text_stemmed" indexed="true" stored="false"/>
+
+    <copyField source="statement" dest="statement_stemmed"/>
+    <copyField source="statement" dest="statement_noun_adj"/>
+    <copyField source="statement" dest="statement_all_verbs"/>
+    <copyField source="statement" dest="statement_verbs_not_aux"/>
+    <copyField source="statement" dest="statement_spell_check"/>
+    <copyField source="statement" dest="statement_prefix"/>
+    <copyField source="answer" dest="answer_stemmed"/>
+    <copyField source="category" dest="category_stemmed"/>
+
+    <copyField source="statement" dest="_text_" />
+    <copyField source="answer" dest="_text_" />
+    <copyField source="category" dest="_text_" />
+    
+</schema>
